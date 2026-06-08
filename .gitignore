@@ -21,4 +21,5 @@ dist
 
 # Temp execution files
 Server/temp/
+Server/temp
 server/temp/
