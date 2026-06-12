@@ -1,21 +1,18 @@
-import {useEffect, useContext,} from "react";
-import {useNavigate,} from "react-router-dom";
-import {AuthContext,} from "../context/AuthContext";
+import { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/dashboard.css";
 import {
   FaCode,
+  FaBolt,
   FaUsers,
   FaRocket,
-  FaDocker,
   FaComments,
   FaSignOutAlt,
 } from "react-icons/fa";
 
 function Dashboard() {
-  const {
-    user,
-    loading,
-  } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (!loading && !user) {
@@ -38,9 +35,7 @@ function Dashboard() {
           <FaCode size={34} color="#3b82f6" />
           <div>
             <h1>Collab Workspace</h1>
-            <p>
-              Your real-time coding universe
-            </p>
+            <p>Your real-time coding universe</p>
           </div>
         </div>
 
@@ -51,13 +46,8 @@ function Dashboard() {
           >
             Open Workspace
           </button>
-          <button
-            className="workspace-btn logout-btn"
-            onClick={handleLogout}
-          >
-            <FaSignOutAlt />
-            {" "}
-            Logout
+          <button className="workspace-btn logout-btn" onClick={handleLogout}>
+            <FaSignOutAlt /> Logout
           </button>
         </div>
       </div>
@@ -65,17 +55,14 @@ function Dashboard() {
       {/* HERO */}
       <div className="workspace-hero">
         <h2>
-          Welcome back,
-          {" "}
-          <span>{user?.name}</span>
+          Welcome back, <span>{user?.name}</span>
         </h2>
         <p>
-          Build, collaborate and execute code
-          securely in real-time using
-          Docker-powered multi-language
-          environments with live editing,
-          chat, version control and
-          collaborative development tools.
+          Build, collaborate and execute code 
+          securely in real-time with
+          multi-language support, live editing, 
+          AI assistance, team chat,
+          version control and collaborative development tools.
         </p>
       </div>
       {/* STATS */}
@@ -86,7 +73,7 @@ function Dashboard() {
         </div>
         <div className="stat-card">
           <h3>Execution Engine</h3>
-          <p>Docker</p>
+          <p>Cloud Sandbox</p>
         </div>
         <div className="stat-card">
           <h3>Collaboration</h3>
@@ -101,50 +88,33 @@ function Dashboard() {
       {/* FEATURES */}
       <div className="feature-grid">
         <div className="feature-card">
-          <FaRocket
-            size={34}
-            color="#3b82f6"
-          />
+          <FaBolt size={34} color="#3b82f6" />
           <h3>Real-Time Coding</h3>
           <p>
-            Collaborate instantly with
-            multiple developers in the same
-            coding room.
+            Collaborate instantly with multiple developers in the same coding
+            room.
           </p>
         </div>
         <div className="feature-card">
-          <FaDocker
-            size={34}
-            color="#3b82f6"
-          />
-          <h3>Secure Execution</h3>
+          <FaRocket size={34} color="#3b82f6" />
+          <h3>Multi-Language Execution</h3>
           <p>
-            Execute JavaScript, Python,
-            Java, C and C++ securely inside
-            isolated Docker containers.
+            Execute JavaScript, Python, 
+            Java, C and C++ securely through 
+            a cloud-based sandbox environment using JDoodle API.
           </p>
         </div>
         <div className="feature-card">
-          <FaComments
-            size={34}
-            color="#3b82f6"
-          />
+          <FaComments size={34} color="#3b82f6" />
           <h3>Live Team Chat</h3>
-          <p>
-            Communicate with collaborators
-            in real-time while coding.
-          </p>
+          <p>Communicate with collaborators in real-time while coding.</p>
         </div>
         <div className="feature-card">
-          <FaUsers
-            size={34}
-            color="#3b82f6"
-          />
+          <FaUsers size={34} color="#3b82f6" />
           <h3>Role Management</h3>
           <p>
-            Admins, editors and viewers
-            with collaborative access
-            control support.
+            Admins, editors and viewers with collaborative access control
+            support.
           </p>
         </div>
       </div>

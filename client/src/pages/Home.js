@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import "../styles/home.css";
 import toast from "react-hot-toast";
-import { FaBolt, FaDocker, FaComments, FaBrain } from "react-icons/fa";
+import { FaBolt, FaComments, FaBrain, FaRocket } from "react-icons/fa";
 
 function Home() {
   const [roomId, setRoomId] = useState("");
@@ -32,7 +32,7 @@ function Home() {
 
           <p>
             Real-time collaborative coding platform with multi-language
-            execution, live chat, role-based editing, Docker sandboxing and
+            execution, live chat, role-based editing, AI assistance and
             version control.
           </p>
           <div className="hero-features">
@@ -42,8 +42,8 @@ function Home() {
             </div>
 
             <div className="feature-item">
-              <FaDocker className="feature-icon" />
-              Secure Docker Code Execution
+              <FaRocket className="feature-icon" />
+              Secure Cloud Code Execution
             </div>
 
             <div className="feature-item">
@@ -53,7 +53,7 @@ function Home() {
 
             <div className="feature-item">
               <FaBrain className="feature-icon" />
-              Multi-Language Compiler
+              AI Coding Assistant
             </div>
           </div>
         </div>
