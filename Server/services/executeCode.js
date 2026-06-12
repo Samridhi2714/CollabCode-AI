@@ -1,34 +1,64 @@
-const { runJavaScript } = require("./jsRunner");
-const { runPython } = require("./pythonRunner");
-const { runCpp } = require("./cppRunner");
-const { runJava } = require("./javaRunner");
-const { runC } = require("./cRunner");
+const axios = require("axios");
 
-const executeCode = async (
-  language,
-  code,
-  input = ""
-) => {
+const LANGUAGE_MAP = {
+  javascript: {
+    language: "javascript",
+    version: "18.15.0",
+  },
+  python: {
+    language: "python",
+    version: "3.10.0",
+  },
+  java: {
+    language: "java",
+    version: "15.0.2",
+  },
+  cpp: {
+    language: "c++",
+    version: "10.2.0",
+  },
+  c: {
+    language: "c",
+    version: "10.2.0",
+  },
+};
 
-  switch (language) {
+const executeCode = async (language, code, input = "") => {
+  const pistonLang = LANGUAGE_MAP[language];
 
-    case "javascript":
-      return await runJavaScript(code, input);
+  if (!pistonLang) {
+    throw new Error("Unsupported language");
+  }
 
-    case "python":
-      return await runPython(code, input);
+  try {
+    const response = await axios.post(
+      "https://emkc.org/api/v2/piston/execute",
+      {
+        language: pistonLang.language,
+        version: pistonLang.version,
+        files: [
+          {
+            content: code,
+          },
+        ],
+        stdin: input,
+      },
+      {
+        timeout: 20000,
+      },
+    );
 
-    case "cpp":
-      return await runCpp(code, input);
+    const result = response.data;
 
-    case "java":
-       return await runJava(code, input);
-    case "c":
-       return await runC(code, input);
-    default:
-      throw new Error(
-        "Unsupported language"
-      );
+    if (result.run.stderr) {
+      throw new Error(result.run.stderr);
+    }
+
+    return result.run.stdout || "Program executed successfully.";
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || error.message || "Execution failed",
+    );
   }
 };
 
