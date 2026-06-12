@@ -2,46 +2,44 @@ const axios = require("axios");
 
 const LANGUAGE_MAP = {
   javascript: {
-    language: "javascript",
-    version: "18.15.0",
+    language: "nodejs",
+    versionIndex: "4",
   },
   python: {
-    language: "python",
-    version: "3.10.0",
+    language: "python3",
+    versionIndex: "4",
   },
   java: {
     language: "java",
-    version: "15.0.2",
+    versionIndex: "5",
   },
   cpp: {
-    language: "c++",
-    version: "10.2.0",
+    language: "cpp17",
+    versionIndex: "1",
   },
   c: {
     language: "c",
-    version: "10.2.0",
+    versionIndex: "5",
   },
 };
 
 const executeCode = async (language, code, input = "") => {
-  const pistonLang = LANGUAGE_MAP[language];
+  const langConfig = LANGUAGE_MAP[language];
 
-  if (!pistonLang) {
+  if (!langConfig) {
     throw new Error("Unsupported language");
   }
 
   try {
     const response = await axios.post(
-      "https://emkc.org/api/v2/piston/execute",
+      "https://api.jdoodle.com/v1/execute",
       {
-        language: pistonLang.language,
-        version: pistonLang.version,
-        files: [
-          {
-            content: code,
-          },
-        ],
+        clientId: process.env.JD_CLIENT_ID,
+        clientSecret: process.env.JD_CLIENT_SECRET,
+        script: code,
         stdin: input,
+        language: langConfig.language,
+        versionIndex: langConfig.versionIndex,
       },
       {
         timeout: 20000,
@@ -50,14 +48,16 @@ const executeCode = async (language, code, input = "") => {
 
     const result = response.data;
 
-    if (result.run.stderr) {
-      throw new Error(result.run.stderr);
+    if (result.error) {
+      throw new Error(result.error);
     }
 
-    return result.run.stdout || "Program executed successfully.";
+    return result.output || "Program executed successfully.";
   } catch (error) {
+    console.error("JDoodle Error:", error.response?.data || error.message);
+
     throw new Error(
-      error.response?.data?.message || error.message || "Execution failed",
+      error.response?.data?.error || error.message || "Execution failed",
     );
   }
 };
